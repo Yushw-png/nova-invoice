@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOVA Invoice | Invoice & Quotation Generator</title>
+<style>
+:root {
+  --navy:#101d35;
+  --blue:#315fe5;
+  --bg:#f4f6fa;
+  --border:#e1e6ee;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--navy);
+}
+header {
+  background:var(--navy);
+  color:white;
+  padding:22px 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo {font-size:23px;font-weight:800;letter-spacing:1px}
+.logo span {color:#8aa8ff}
+header small {color:#b9c6df}
+main {max-width:1120px;margin:38px auto;padding:0 18px}
+.intro h1 {font-size:34px;margin:0 0 9px}
+.intro p {color:#697589;line-height:1.6}
+.layout {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+  margin-top:25px;
+}
+.panel {
+  background:white;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:24px;
+  box-shadow:0 8px 28px #101d3508;
+}
+h2 {font-size:19px;margin:0 0 22px}
+h3 {font-size:14px;margin:25px 0 14px}
+label {
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  margin:0 0 7px;
+  color:#56647a;
+}
+input,select,textarea {
+  width:100%;
+  padding:12px;
+  border:1px solid #dce2eb;
+  border-radius:9px;
+  background:white;
+  color:var(--navy);
+  font:inherit;
+  margin-bottom:15px;
+}
+textarea {resize:vertical;min-height:70px}
+input:focus,select:focus,textarea:focus {
+  outline:2px solid #c3d0ff;
+  border-color:var(--blue);
+}
+.two {display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.item {
+  display:grid;
+  grid-template-columns:1fr 85px 100px 34px;
+  gap:7px;
+  align-items:start;
+}
+.item input {padding:10px}
+button {
+  border:0;
+  border-radius:9px;
+  padding:13px 17px;
+  font-weight:700;
+  cursor:pointer;
+}
+.primary {background:var(--blue);color:white}
+.secondary {background:#eaf0ff;color:var(--blue)}
+.remove {background:#fff0f0;color:#b52d2d;padding:10px}
+.actions {display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.preview {
+  background:white;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:32px;
+  box-shadow:0 8px 28px #101d3508;
+}
+.doc-head {display:flex;justify-content:space-between;gap:20px}
+.doc-title {font-size:28px;font-weight:800;letter-spacing:1px}
+.muted {color:#758197;font-size:12px;line-height:1.7}
+.company {font-size:19px;font-weight:800;margin:24px 0 5px}
+.bill {margin:30px 0}
+.bill strong {display:block;margin-bottom:6px}
+table {width:100%;border-collapse:collapse;margin-top:25px}
+th {
+  background:#f1f4f9;
+  text-align:left;
+  font-size:12px;
+  padding:12px 8px;
+}
+td {padding:13px 8px;border-bottom:1px solid var(--border);font-size:13px}
+.right {text-align:right}
+.total {
+  display:flex;
+  justify-content:space-between;
+  padding:17px 0;
+  font-size:20px;
+  font-weight:800;
+}
+.notes {margin-top:35px;border-top:1px solid var(--border);padding-top:15px}
+footer {text-align:center;padding:35px;color:#8892a3;font-size:12px}
+@media(max-width:800px){
+  .layout {grid-template-columns:1fr}
+  .intro h1 {font-size:27px}
+  .panel,.preview {padding:18px}
+  .item {grid-template-columns:1fr 55px 75px 30px}
+  .item input {font-size:12px;padding:8px}
+  header {padding:20px}
+}
+@media print {
+  @page {size:A4;margin:14mm}
+  body {background:white}
+  header,.intro,.panel,.actions,footer {display:none!important}
+  main {margin:0;padding:0;max-width:none}
+  .layout {display:block;margin:0}
+  .preview {border:0;box-shadow:none;padding:0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">NOVA<span>.</span></div>
+  <small>Invoice & Quotation Studio</small>
+</header>
+
+<main>
+  <section class="intro">
+    <h1>Professional documents. Made simple.</h1>
+    <p>Create invoices and quotations in minutes.
+    Designed for small businesses in Mauritius.</p>
+  </section>
+
+  <div class="layout">
+    <section class="panel">
+      <h2>Create your document</h2>
+
+      <label>Document type</label>
+      <select id="type">
+        <option value="INVOICE">Invoice</option>
+        <option value="QUOTATION">Quotation</option>
+      </select>
+
+      <div class="two">
+        <div>
+          <label>Document number</label>
+          <input id="number" value="INV-001">
+        </div>
+        <div>
+          <label>Date</label>
+          <input id="date" type="date">
+        </div>
+      </div>
+
+      <h3>Your business</h3>
+      <label>Business name</label>
+      <input id="business" placeholder="Your business name">
+
+      <label>Business contact details</label>
+      <textarea id="contact" placeholder="Phone, email and address"></textarea>
+
+      <h3>Customer information</h3>
+      <label>Customer name</label>
+      <input id="customer" placeholder="Customer name">
+
+      <label>Customer contact / address</label>
+      <textarea id="customerContact" placeholder="Optional"></textarea>
+
+      <h3>Products or services</h3>
+      <div id="items"></div>
+      <button class="secondary" id="addItem" type="button">
+        + Add item
+      </button>
+
+      <h3>Additional details</h3>
+      <label>Discount (Rs)</label>
+      <input id="discount" type="number" min="0" step="0.01" value="0">
+
+      <label>Tax rate (%) — only if applicable</label>
+      <input id="tax" type="number" min="0" step="0.01" value="0">
+
+      <label>Notes / payment instructions</label>
+      <textarea id="notes" placeholder="Optional notes"></textarea>
+
+      <div class="actions">
+        <button class="primary" id="print" type="button">
+          Print / Save as PDF
+        </button>
+        <button class="secondary" id="reset" type="button">
+          Clear form
+        </button>
+      </div>
+    </section>
+
+    <section>
+      <div class="preview" id="document">
+        <div class="doc-head">
+          <div>
+            <div class="logo">NOVA<span>.</span></div>
+            <div class="muted">Document preview</div>
+          </div>
+          <div class="right">
+            <div class="doc-title" id="pType">INVOICE</div>
+            <div class="muted" id="pNumber"></div>
+            <div class="muted" id="pDate"></div>
+          </div>
+        </div>
+
+        <div class="company" id="pBusiness">Your Business</div>
+        <div class="muted" id="pContact"></div>
+
+        <div class="bill">
+          <strong>BILL TO</strong>
+          <div id="pCustomer">Customer Name</div>
+          <div class="muted" id="pCustomerContact"></div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th class="right">Qty</th>
+              <th class="right">Price</th>
+              <th class="right">Amount</th>
+            </tr>
+          </thead>
+          <tbody id="pItems"></tbody>
+        </table>
+
+        <div class="right" style="margin-top:25px">
+          <div id="pSubtotal"></div>
+          <div id="pDiscount"></div>
+          <div id="pTax"></div>
+        </div>
+
+        <div class="total">
+          <span>Total</span>
+          <span id="pTotal">Rs 0.00</span>
+        </div>
+
+        <div class="notes">
+          <strong>Notes</strong>
+          <p class="muted" id="pNotes">Thank you.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  NOVA Invoice — Prototype edition · Mauritius
+</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const money = n => "Rs " + Number(n).toLocaleString("en-MU",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+});
+const num = v => Math.max(0,Number(v)||0);
+
+$("date").value = new Date().toLocaleDateString("en-CA");
+
+function addItem(description="",quantity=1,price=0){
+  const row=document.createElement("div");
+  row.className="item";
+
+  const desc=document.createElement("input");
+  desc.placeholder="Description";
+  desc.value=description;
+
+  const qty=document.createElement("input");
+  qty.type="number";
+  qty.min="0";
+  qty.step="1";
+  qty.value=quantity;
+
+  const cost=document.createElement("input");
+  cost.type="number";
+  cost.min="0";
+  cost.step="0.01";
+  cost.value=price;
+
+  const remove=document.createElement("button");
+  remove.type="button";
+  remove.className="remove";
+  remove.textContent="×";
+  remove.setAttribute("aria-label","Remove item");
+  remove.onclick=()=>{
+    row.remove();
+    update();
+  };
+
+  row.append(desc,qty,cost,remove);
+  $("items").appendChild(row);
+  row.addEventListener("input",update);
+  update();
+}
+
+function setText(id,value){
+  $(id).textContent=value;
+}
+
+function update(){
+  const type=$("type").value;
+  setText("pType",type);
+  setText("pNumber",$("number").value);
+  setText("pDate",$("date").value);
+  setText("pBusiness",$("business").value||"Your Business");
+  setText("pContact",$("contact").value);
+  setText("pCustomer",$("customer").value||"Customer Name");
+  setText("pCustomerContact",$("customerContact").value);
+  setText("pNotes",$("notes").value||"Thank you.");
+
+  $("pItems").replaceChildren();
+  let subtotal=0;
+
+  document.querySelectorAll(".item").forEach(row=>{
+    const inputs=row.querySelectorAll("input");
+    const description=inputs[0].value||"Item";
+    const quantity=num(inputs[1].value);
+    const price=num(inputs[2].value);
+    const amount=quantity*price;
+    subtotal+=amount;
+
+    const tr=document.createElement("tr");
+    [description,quantity,money(price),money(amount)].forEach((value,i)=>{
+      const td=document.createElement("td");
+      td.textContent=value;
+      if(i>0) td.className="right";
+      tr.appendChild(td);
+    });
+    $("pItems").appendChild(tr);
+  });
+
+  const discount=Math.min(num($("discount").value),subtotal);
+  const taxable=subtotal-discount;
+  const tax=taxable*num($("tax").value)/100;
+  const total=taxable+tax;
+
+  setText("pSubtotal","Subtotal: "+money(subtotal));
+  setText("pDiscount","Discount: -"+money(discount));
+  setText("pTax","Tax: "+money(tax));
+  setText("pTotal",money(total));
+}
+
+document.querySelectorAll("input,select,textarea").forEach(el=>{
+  el.addEventListener("input",update);
+  el.addEventListener("change",update);
+});
+
+$("type").addEventListener("change",()=>{
+  const old=$("number").value;
+  if(old==="INV-001"||old==="QUO-001"){
+    $("number").value=$("type").value==="INVOICE"?"INV-001":"QUO-001";
+  }
+  update();
+});
+
+$("addItem").onclick=()=>addItem();
+$("print").onclick=()=>window.print();
+
+$("reset").onclick=()=>{
+  if(!confirm("Clear all document information?"))return;
+  document.querySelectorAll("input,textarea").forEach(el=>{
+    el.value="";
+  });
+  $("type").value="INVOICE";
+  $("number").value="INV-001";
+  $("date").value=new Date().toLocaleDateString("en-CA");
+  $("discount").value=0;
+  $("tax").value=0;
+  $("items").replaceChildren();
+  addItem();
+  update();
+};
+
+addItem("Example service",1,2500);
+update();
+</script>
+</body>
+</html>

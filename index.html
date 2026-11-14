@@ -1,419 +1,53 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NOVA Invoice | Invoice & Quotation Generator</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NOVA | Invoice & Quotation Studio</title>
 <style>
-:root {
-  --navy:#101d35;
-  --blue:#315fe5;
-  --bg:#f4f6fa;
-  --border:#e1e6ee;
-  --muted:#64748b;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:var(--bg);
-  color:var(--navy);
-}
-header {
-  background:var(--navy);
-  color:white;
-  padding:22px 6%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.logo { font-size:24px;font-weight:800;letter-spacing:1px; }
-.logo span { color:#8aa8ff; }
-header small { color:#c5cfdf; }
-main { max-width:1150px;margin:38px auto;padding:0 18px; }
-.intro h1 { font-size:34px;margin:0 0 12px; }
-.intro p { color:var(--muted);line-height:1.6; }
-.layout {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:22px;
-  margin-top:26px;
-  align-items:start;
-}
-.panel,.preview {
-  background:white;
-  border:1px solid var(--border);
-  border-radius:17px;
-  padding:26px;
-  box-shadow:0 8px 28px #101d3508;
-  min-width:0;
-}
-h2 { font-size:20px;margin:0 0 24px; }
-h3 { font-size:15px;margin:26px 0 14px; }
-label {
-  display:block;
-  font-size:12px;
-  font-weight:700;
-  color:#52617b;
-  margin:14px 0 7px;
-}
-input,textarea,select {
-  width:100%;
-  padding:13px;
-  border:1px solid #d6dfeb;
-  border-radius:9px;
-  font:inherit;
-  color:var(--navy);
-  background:white;
-}
-textarea { resize:vertical;min-height:72px; }
-.two { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
-.item {
-  display:grid;
-  grid-template-columns:2fr .7fr 1fr auto;
-  gap:8px;
-  align-items:center;
-  margin-bottom:10px;
-}
-.item input { padding:10px;min-width:0; }
-button {
-  border:0;
-  border-radius:9px;
-  padding:13px 17px;
-  font-weight:700;
-  cursor:pointer;
-}
-.primary { background:var(--blue);color:white; }
-.secondary { background:#eaf0ff;color:var(--blue); }
-.remove { background:#fff0f0;color:#b52d2d;padding:10px; }
-.actions { display:flex;flex-wrap:wrap;gap:10px;margin-top:22px; }
-.preview { padding:32px; }
-.doc-head {
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:20px;
-}
-.doc-title { font-size:27px;font-weight:800;letter-spacing:1px; }
-.muted { color:var(--muted);font-size:12px;line-height:1.7; }
-.company { font-size:19px;font-weight:800;margin:28px 0 5px; }
-.bill { margin:30px 0; }
-.bill strong { display:block;margin-bottom:6px; }
-table { width:100%;border-collapse:collapse;margin-top:25px; }
-th {
-  background:#f1f4f9;
-  text-align:left;
-  padding:12px 8px;
-  font-size:12px;
-}
-td { padding:13px 8px;border-bottom:1px solid var(--border);font-size:13px; }
-.right { text-align:right; }
-.totals { margin-top:25px;text-align:right;line-height:1.7; }
-.total {
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  font-size:20px;
-  font-weight:800;
-  margin-top:20px;
-}
-.notes { border-top:1px solid var(--border);margin-top:35px;padding-top:15px; }
-#pLogo { max-width:110px;max-height:75px;object-fit:contain;display:none; }
-footer { text-align:center;color:var(--muted);font-size:12px;padding:35px; }
-@media(max-width:850px) {
-  .layout { grid-template-columns:1fr; }
-  .intro h1 { font-size:28px; }
-}
-@media(max-width:480px) {
-  .panel,.preview { padding:17px; }
-  .item { grid-template-columns:1fr 65px 90px 35px;gap:4px; }
-  .item input { padding:7px;font-size:12px; }
-  .preview { overflow-x:auto; }
-  table { min-width:320px; }
-  header { padding:18px; }
-}
-@media print {
-  @page { size:A4;margin:14mm; }
-  body { background:white; }
-  header,.intro,.panel,footer { display:none!important; }
-  main { margin:0;padding:0;max-width:none; }
-  .layout { display:block;margin:0; }
-  .layout > section:first-child { display:none; }
-  .preview { border:0;box-shadow:none;padding:0; }
-  .notes { break-inside:avoid; }
-}
+:root{--ink:#14213d;--blue:#345fe7;--bg:#f3f6fb;--line:#dfe5ee;--muted:#64748b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Arial,sans-serif}header{background:var(--ink);color:#fff;padding:20px max(20px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between}.brand{font-weight:800;font-size:25px;letter-spacing:1px}.brand span{color:#8ca8ff}header small{color:#cbd5e1}main{max-width:1180px;margin:32px auto;padding:0 18px}.intro h1{font-size:32px;margin:0 0 5px}.intro p{color:var(--muted);margin:0}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start;margin-top:24px}.panel,.paper{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 25px #12203a0b;min-width:0}.panel{padding:25px}.paper{padding:35px;overflow-wrap:anywhere}h2{margin:0 0 18px;font-size:20px}h3{font-size:15px;margin:25px 0 12px;border-bottom:1px solid var(--line);padding-bottom:8px}label{display:block;font-size:12px;font-weight:700;color:#52617a;margin:12px 0 5px}input,select,textarea{width:100%;border:1px solid #d5ddea;border-radius:8px;padding:11px;color:var(--ink);background:#fff;font:inherit}textarea{min-height:65px;resize:vertical}.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}.item{display:grid;grid-template-columns:minmax(0,2fr) 64px 92px 34px;gap:7px;margin-bottom:9px}.item input{min-width:0;padding:9px 7px}.item button{padding:0}.buttons{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}button{border:0;border-radius:8px;padding:12px 15px;font-weight:700;cursor:pointer}.primary{background:var(--blue);color:white}.soft{background:#eaf0ff;color:#264ed2}.danger{background:#fff0f0;color:#b42336}.hint{font-size:12px;color:var(--muted);margin-top:8px}.doc-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.doc-title{font-size:28px;font-weight:800;letter-spacing:1px}.muted{font-size:12px;color:var(--muted);white-space:pre-line}.company{font-size:19px;font-weight:800;margin-top:25px}.billgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:27px 0}.eyebrow{font-size:11px;font-weight:800;color:var(--blue);letter-spacing:1px;margin-bottom:6px}.doc-table{width:100%;border-collapse:collapse;table-layout:fixed;margin-top:20px}.doc-table th{background:#eff3fb;font-size:11px;text-align:left;padding:10px 6px}.doc-table td{font-size:12px;padding:12px 6px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.doc-table th:not(:first-child),.doc-table td:not(:first-child){text-align:right}.summary{margin:24px 0 0 auto;max-width:290px}.summary div{display:flex;justify-content:space-between;gap:12px;padding:5px 0}.summary .grand{border-top:2px solid var(--ink);font-weight:800;font-size:19px;margin-top:10px;padding-top:12px}.status{display:inline-block;border-radius:99px;padding:5px 10px;background:#eef2ff;color:#274bc1;font-size:11px;font-weight:800;margin-top:9px}.footblock{margin-top:32px;padding-top:14px;border-top:1px solid var(--line);white-space:pre-line}.footblock strong{display:block;margin-bottom:6px}.footblock p{margin:0;color:#52617a;font-size:12px;white-space:pre-line}.paper img{display:none;max-width:115px;max-height:78px;object-fit:contain;margin-bottom:8px}footer{text-align:center;color:var(--muted);font-size:12px;padding:28px}@media(max-width:850px){.layout{grid-template-columns:1fr}.intro h1{font-size:26px}}@media(max-width:480px){.panel,.paper{padding:16px}.item{grid-template-columns:minmax(0,1fr) 50px 72px 30px;gap:4px}.item input{font-size:12px;padding:7px 4px}.doc-title{font-size:21px}.billgrid{gap:10px}}@media print{@page{size:A4;margin:14mm}body{background:white}header,.intro,.panel,footer{display:none!important}main{padding:0;margin:0;max-width:none}.layout{display:block;margin:0}.layout>section:first-child{display:none!important}.paper{border:0;border-radius:0;box-shadow:none;padding:0;overflow:visible}.doc-table tr,.footblock,.summary{break-inside:avoid}}
 </style>
 </head>
 <body>
-<header>
-  <div class="logo">NOVA<span>.</span></div>
-  <small>Invoice & Quotation Studio</small>
-</header>
-
-<main>
-  <div class="intro">
-    <h1>Professional documents. Made simple.</h1>
-    <p>Create invoices and quotations in minutes. Designed for small businesses in Mauritius.</p>
-  </div>
-
-  <div class="layout">
-    <section class="panel">
-      <h2>Create your document</h2>
-
-      <label>Document type</label>
-      <select id="type">
-        <option value="INVOICE">Invoice</option>
-        <option value="QUOTATION">Quotation</option>
-      </select>
-
-      <div class="two">
-        <div>
-          <label>Document number</label>
-          <input id="number" value="INV-001">
-        </div>
-        <div>
-          <label>Date</label>
-          <input id="date" type="date">
-        </div>
-      </div>
-
-      <h3>Your business</h3>
-      <label>Business logo (optional)</label>
-      <input type="file" id="businessLogo" accept="image/png,image/jpeg,image/webp">
-
-      <label>Business name</label>
-      <input id="business" placeholder="Your business name">
-
-      <label>Business contact details</label>
-      <textarea id="contact" placeholder="Phone, email and address"></textarea>
-
-      <h3>Customer information</h3>
-      <label>Customer name</label>
-      <input id="customer" placeholder="Customer name">
-
-      <label>Customer contact / address</label>
-      <textarea id="customerContact" placeholder="Optional"></textarea>
-
-      <h3>Products or services</h3>
-      <div id="items"></div>
-      <button class="secondary" id="addItem" type="button">+ Add item</button>
-
-      <h3>Additional details</h3>
-      <div class="two">
-        <div>
-          <label>Discount (Rs)</label>
-          <input id="discount" type="number" min="0" value="0">
-        </div>
-        <div>
-          <label>Tax rate (%) — if applicable</label>
-          <input id="tax" type="number" min="0" value="0">
-        </div>
-      </div>
-
-      <label>Notes / payment instructions</label>
-      <textarea id="notes" placeholder="Optional notes"></textarea>
-
-      <div class="actions">
-        <button class="primary" id="print" type="button">Print / Save as PDF</button>
-        <button class="secondary" id="reset" type="button">Clear form</button>
-      </div>
-    </section>
-
-    <section class="preview" id="document">
-      <div class="doc-head">
-        <div>
-          <img id="pLogo" alt="Business logo">
-          <div class="logo">NOVA<span>.</span></div>
-          <div class="muted">Professional Invoice & Quotation</div>
-        </div>
-        <div class="right">
-          <div class="doc-title" id="pType">INVOICE</div>
-          <div class="muted" id="pNumber"></div>
-          <div class="muted" id="pDate"></div>
-        </div>
-      </div>
-
-      <div class="company" id="pBusiness">Your Business</div>
-      <div class="muted" id="pContact"></div>
-
-      <div class="bill">
-        <strong>BILL TO</strong>
-        <div id="pCustomer">Customer Name</div>
-        <div class="muted" id="pCustomerContact"></div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th class="right">Qty</th>
-            <th class="right">Price</th>
-            <th class="right">Amount</th>
-          </tr>
-        </thead>
-        <tbody id="pItems"></tbody>
-      </table>
-
-      <div class="totals">
-        <div id="pSubtotal"></div>
-        <div id="pDiscount"></div>
-        <div id="pTax"></div>
-      </div>
-
-      <div class="total">
-        <span>Total</span>
-        <span id="pTotal">Rs 0.00</span>
-      </div>
-
-      <div class="notes">
-        <strong>Notes</strong>
-        <p class="muted" id="pNotes">Thank you.</p>
-      </div>
-    </section>
-  </div>
-</main>
-
-<footer>NOVA Invoice — Mauritius</footer>
-
+<header><div class="brand">NOVA<span>.</span></div><small>Invoice & Quotation Studio</small></header>
+<main><div class="intro"><h1>Professional documents. Made simple.</h1><p>Create invoices and quotations with a live preview, then print or save as PDF.</p></div>
+<div class="layout"><section class="panel">
+<h2>Create your document</h2>
+<div class="two"><div><label>Document type</label><select id="type"><option value="INVOICE">Invoice</option><option value="QUOTATION">Quotation</option></select></div><div><label>Currency</label><select id="currency"><option value="MUR">MUR (Rs)</option><option value="EUR">EUR (€)</option><option value="USD">USD ($)</option><option value="GBP">GBP (£)</option></select></div></div>
+<div class="two"><div><label>Document number</label><input id="number"></div><div><label>Date</label><input id="date" type="date"></div></div>
+<div class="two"><div><label>Payment status</label><select id="status"><option>Unpaid</option><option>Partially Paid</option><option>Paid</option><option>Not Applicable</option></select></div><div><label>Quotation valid until</label><input id="validUntil" type="date"></div></div>
+<h3>Your business</h3><label>Business logo</label><input id="logoFile" type="file" accept="image/png,image/jpeg,image/webp"><label>Business name</label><input id="business" placeholder="Business name"><label>Contact / address</label><textarea id="contact" placeholder="Phone, email, address"></textarea><label>Bank / payment details</label><textarea id="bank" placeholder="Bank name, account name, account number, IBAN or payment instructions"></textarea>
+<h3>Customer</h3><label>Choose saved customer</label><select id="savedCustomer"><option value="">New customer</option></select><label>Customer name</label><input id="customer" placeholder="Customer name"><label>Customer contact / address</label><textarea id="customerContact" placeholder="Email, phone, address"></textarea><div class="buttons"><button type="button" class="soft" id="saveCustomer">Save customer</button><button type="button" class="danger" id="deleteCustomer">Delete selected</button></div>
+<h3>Products or services</h3><div id="items"></div><button type="button" class="soft" id="addItem">+ Add item</button>
+<h3>Totals and notes</h3><div class="two"><div><label>Discount (flat amount)</label><input id="discount" type="number" min="0" step="any" value="0"></div><div><label>Tax (%)</label><input id="tax" type="number" min="0" step="any" value="0"></div></div><label>Notes</label><textarea id="notes" placeholder="Thank you for your business."></textarea>
+<div class="buttons"><button type="button" class="primary" id="print">Print / Save as PDF</button><button type="button" class="soft" id="next">New document</button><button type="button" class="danger" id="clear">Clear document</button></div><p class="hint">Customer list and document counters are saved only in this browser. Print to PDF to keep a permanent copy.</p>
+</section>
+<section class="paper" id="document"><div class="doc-head"><div><img id="pLogo" alt="Business logo"><div class="brand">NOVA<span>.</span></div><div class="muted">Professional Invoice & Quotation</div></div><div style="text-align:right"><div class="doc-title" id="pType">INVOICE</div><div class="muted" id="pNumber"></div><div class="muted" id="pDate"></div><div class="muted" id="pValid"></div><div class="status" id="pStatus"></div></div></div>
+<div class="company" id="pBusiness">Your Business</div><div class="muted" id="pContact"></div><div class="billgrid"><div><div class="eyebrow">BILL TO</div><strong id="pCustomer">Customer Name</strong><div class="muted" id="pCustomerContact"></div></div><div></div></div>
+<table class="doc-table"><thead><tr><th style="width:43%">Description</th><th style="width:13%">Qty</th><th style="width:22%">Price</th><th style="width:22%">Amount</th></tr></thead><tbody id="pItems"></tbody></table><div class="summary"><div><span>Subtotal</span><span id="pSubtotal"></span></div><div><span>Discount</span><span id="pDiscount"></span></div><div><span>Tax</span><span id="pTax"></span></div><div class="grand"><span>Total</span><span id="pTotal"></span></div></div><div class="footblock" id="bankBlock"><strong>PAYMENT DETAILS</strong><p id="pBank"></p></div><div class="footblock"><strong>NOTES</strong><p id="pNotes"></p></div></section>
+</div></main><footer>NOVA Invoice — Built for independent businesses</footer>
 <script>
-const $ = id => document.getElementById(id);
-
-const money = n => "Rs " + Number(n).toLocaleString("en-MU", {
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
-});
-
-const num = v => Math.max(0, Number(v) || 0);
-
-$("date").value = new Date().toLocaleDateString("en-CA");
-
-function addItem(description="",quantity=1,price=0) {
-  const row = document.createElement("div");
-  row.className = "item";
-
-  row.innerHTML = `
-    <input class="description" placeholder="Description">
-    <input class="quantity" type="number" min="0" step="any">
-    <input class="price" type="number" min="0" step="any">
-    <button type="button" class="remove">×</button>
-  `;
-
-  row.querySelector(".description").value = description;
-  row.querySelector(".quantity").value = quantity;
-  row.querySelector(".price").value = price;
-
-  row.querySelector(".remove").onclick = () => {
-    row.remove();
-    update();
-  };
-
-  row.addEventListener("input",update);
-  $("items").appendChild(row);
-  update();
-}
-
-function update() {
-  $("pType").textContent = $("type").value;
-  $("pNumber").textContent = $("number").value;
-  $("pDate").textContent = $("date").value;
-  $("pBusiness").textContent = $("business").value || "Your Business";
-  $("pContact").textContent = $("contact").value;
-  $("pCustomer").textContent = $("customer").value || "Customer Name";
-  $("pCustomerContact").textContent = $("customerContact").value;
-  $("pNotes").textContent = $("notes").value || "Thank you.";
-
-  const tbody = $("pItems");
-  tbody.replaceChildren();
-
-  let subtotal = 0;
-
-  document.querySelectorAll(".item").forEach(row => {
-    const description = row.querySelector(".description").value;
-    const qty = num(row.querySelector(".quantity").value);
-    const price = num(row.querySelector(".price").value);
-    const amount = qty * price;
-
-    subtotal += amount;
-
-    const tr = document.createElement("tr");
-
-    [description || "Item",qty,money(price),money(amount)].forEach((value,i) => {
-      const td = document.createElement("td");
-      td.textContent = value;
-      if(i > 0) td.className = "right";
-      tr.appendChild(td);
-    });
-
-    tbody.appendChild(tr);
-  });
-
-  const discount = Math.min(subtotal,num($("discount").value));
-  const taxable = subtotal - discount;
-  const tax = taxable * num($("tax").value) / 100;
-  const total = taxable + tax;
-
-  $("pSubtotal").textContent = "Subtotal: " + money(subtotal);
-  $("pDiscount").textContent = "Discount: -" + money(discount);
-  $("pTax").textContent = "Tax: " + money(tax);
-  $("pTotal").textContent = money(total);
-}
-
-$("businessLogo").addEventListener("change",event => {
-  const file = event.target.files[0];
-  if(!file) {
-    $("pLogo").removeAttribute("src");
-    $("pLogo").style.display = "none";
-    return;
-  }
-  if(!["image/png","image/jpeg","image/webp"].includes(file.type)) {
-    alert("Please choose a PNG, JPG or WebP image.");
-    event.target.value = "";
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = () => {
-    $("pLogo").src = reader.result;
-    $("pLogo").style.display = "block";
-  };
-  reader.readAsDataURL(file);
-});
-
-$("type").addEventListener("change",() => {
-  $("number").value = $("type").value === "INVOICE" ? "INV-001" : "QUO-001";
-  update();
-});
-
-document.querySelectorAll("input,textarea,select").forEach(el => {
-  el.addEventListener("input",update);
-});
-
-$("addItem").onclick = () => addItem();
-$("print").onclick = () => window.print();
-
-$("reset").onclick = () => {
-  if(!confirm("Clear all document information?")) return;
-
-  document.querySelectorAll("input,textarea").forEach(el => {
-    el.value = "";
-  });
-
-  $("type").value = "INVOICE";
-  $("number").value = "INV-001";
-  $("date").value = new Date().toLocaleDateString("en-CA");
-  $("discount").value = 0;
-  $("tax").value = 0;
-  $("pLogo").removeAttribute("src");
-  $("pLogo").style.display = "none";
-  $("items").replaceChildren();
-
-  addItem();
-  update();
-};
-
-addItem("Example service",1,2500);
-update();
+'use strict';
+const el=id=>document.getElementById(id);
+const key='nova_v2_customers';
+const today=()=>{const d=new Date();return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')};
+const val=id=>el(id).value;
+const safe=n=>Math.max(0,Number(n)||0);
+const format=n=>{const c=val('currency');const s={MUR:'Rs ',EUR:'€',USD:'$',GBP:'£'}[c];return s+Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})};
+const readCustomers=()=>{try{const v=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(v)?v:[]}catch{return []}};
+const storeCustomers=v=>{try{localStorage.setItem(key,JSON.stringify(v));return true}catch{alert('Browser storage is unavailable. Customer could not be saved.');return false}};
+function refreshCustomers(selected=''){el('savedCustomer').replaceChildren(new Option('New customer',''));readCustomers().forEach(c=>el('savedCustomer').add(new Option(c.name,c.name)));el('savedCustomer').value=selected}
+function counter(type){const prefix=type==='INVOICE'?'INV':'QUO';const storageKey='nova_v2_counter_'+prefix;let n=1;try{n=Math.max(1,Number(localStorage.getItem(storageKey))||1)}catch{}return prefix+'-'+String(n).padStart(4,'0')}
+function bumpCounter(){const prefix=val('type')==='INVOICE'?'INV':'QUO';const k='nova_v2_counter_'+prefix;const current=counter(val('type'));const match=val('number').match(new RegExp('^'+prefix+'-(\\d+)$'));let next=Number(current.split('-')[1]);if(match)next=Math.max(next,Number(match[1])+1);try{localStorage.setItem(k,String(next))}catch{}}
+function addItem(description='',qty=1,price=0){const row=document.createElement('div');row.className='item';row.innerHTML='<input class="desc" placeholder="Description" aria-label="Description"><input class="qty" type="number" min="0" step="any" aria-label="Quantity"><input class="price" type="number" min="0" step="any" aria-label="Price"><button type="button" class="danger" aria-label="Remove item">×</button>';row.querySelector('.desc').value=description;row.querySelector('.qty').value=qty;row.querySelector('.price').value=price;row.querySelector('button').onclick=()=>{row.remove();update()};row.addEventListener('input',update);el('items').append(row);update()}
+function update(){el('pType').textContent=val('type');el('pNumber').textContent=val('number');el('pDate').textContent='Date: '+val('date');el('pValid').textContent=val('type')==='QUOTATION'&&val('validUntil')?'Valid until: '+val('validUntil'):'';el('pStatus').textContent=val('type')==='INVOICE'?val('status'):'QUOTATION';el('pBusiness').textContent=val('business')||'Your Business';el('pContact').textContent=val('contact');el('pCustomer').textContent=val('customer')||'Customer Name';el('pCustomerContact').textContent=val('customerContact');el('pBank').textContent=val('bank');el('bankBlock').style.display=val('bank').trim()?'block':'none';el('pNotes').textContent=val('notes')||'Thank you for your business.';el('pItems').replaceChildren();let subtotal=0;document.querySelectorAll('.item').forEach(r=>{const q=safe(r.querySelector('.qty').value),p=safe(r.querySelector('.price').value),amount=q*p;subtotal+=amount;const tr=document.createElement('tr');[r.querySelector('.desc').value||'Item',String(q),format(p),format(amount)].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.append(td)});el('pItems').append(tr)});const discount=Math.min(subtotal,safe(val('discount'))),tax=(subtotal-discount)*safe(val('tax'))/100;el('pSubtotal').textContent=format(subtotal);el('pDiscount').textContent='−'+format(discount);el('pTax').textContent=format(tax);el('pTotal').textContent=format(subtotal-discount+tax)}
+function resetDocument(advance){if(advance)bumpCounter();['customer','customerContact','notes'].forEach(id=>el(id).value='');el('items').replaceChildren();el('discount').value=0;el('tax').value=0;el('status').value='Unpaid';el('date').value=today();el('validUntil').value='';el('number').value=counter(val('type'));el('savedCustomer').value='';addItem();update()}
+el('type').addEventListener('change',()=>{el('number').value=counter(val('type'));update()});
+el('savedCustomer').addEventListener('change',()=>{const c=readCustomers().find(x=>x.name===val('savedCustomer'));if(c){el('customer').value=c.name;el('customerContact').value=c.contact}update()});
+el('saveCustomer').onclick=()=>{const name=val('customer').trim();if(!name){alert('Enter a customer name first.');return}const customers=readCustomers().filter(c=>c.name!==name);customers.push({name,contact:val('customerContact')});if(storeCustomers(customers)){refreshCustomers(name);alert('Customer saved in this browser.')}};
+el('deleteCustomer').onclick=()=>{const name=val('savedCustomer');if(!name){alert('Choose a saved customer first.');return}if(confirm('Delete saved customer '+name+'?')){if(storeCustomers(readCustomers().filter(c=>c.name!==name)))refreshCustomers()}};
+el('logoFile').addEventListener('change',e=>{const file=e.target.files[0];if(!file){el('pLogo').style.display='none';return}if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>4*1024*1024){alert('Choose a PNG, JPG or WebP logo under 4 MB.');e.target.value='';return}const reader=new FileReader();reader.onload=()=>{el('pLogo').src=reader.result;el('pLogo').style.display='block'};reader.readAsDataURL(file)});
+document.querySelectorAll('input,textarea,select').forEach(x=>x.addEventListener('input',update));el('addItem').onclick=()=>addItem();el('print').onclick=()=>window.print();el('next').onclick=()=>{if(confirm('Start a new document? Save the current one as PDF first.'))resetDocument(true)};el('clear').onclick=()=>{if(confirm('Clear this document without increasing its number?'))resetDocument(false)};
+el('date').value=today();el('number').value=counter('INVOICE');refreshCustomers();addItem('',1,0);update();
 </script>
-</body>
-</html>
+</body></html>
